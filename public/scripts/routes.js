@@ -30,8 +30,8 @@ function adminStates($stateProvider) {
       component: 'tests',
     })
 
-    .state('tests.add', {
-      url: 'add/',
+    .state('tests_add', {
+      url: '/tests/add/',
       component: 'newTest',
     });
 

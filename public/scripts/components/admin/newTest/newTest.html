@@ -1,0 +1,12 @@
+<form ng-submit="$ctrl.createTest()">
+  <label>
+    Test name
+    <input type="text" name="name" ng-model="$ctrl.test.name">
+  </label>
+  <label>
+    Test description
+    <input type="text" name="description" ng-model="$ctrl.test.description">
+  </label>
+
+  <button type="submit">Create</button>
+</form>

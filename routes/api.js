@@ -11,4 +11,13 @@ router.get('/tests', function(req, res, next) {
   });
 });
 
+/* GET /questions listing. */
+router.post('/tests', function(req, res, next) {
+  console.log(req.body);
+  Test.create(req.body, function (err, test) {
+    if (err) return next(err);
+    res.json(test);
+  });
+});
+
 module.exports = router;
