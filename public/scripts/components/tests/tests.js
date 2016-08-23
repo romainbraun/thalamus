@@ -1,26 +1,18 @@
-/*@ngInject*/
-/**
-* @desc Project Card component
-* @example
-* <viz-project-card></viz-project-card>
-*/
-
-var projectCard = {
+var tests = {
 
   bindings: {
     project: '<'
   },
 
-  templateUrl: 'scripts/app/components/projectCard/projectCard.html',
+  templateUrl: 'scripts/components/tests/tests.html',
 
-  controller: function($filter) {
-    this.$onInit = function() {
-      this.projectStatus = $filter('vizProjectStatus')(this.project);
-    };
+  controller: function($resource) {
+    var Tests = $resource('api/tests');
+    this.tests = Tests.query();
   }
 };
 
 angular
-  .module('vizibl.components')
-  .component('vizProjectCard', projectCard);
+  .module('app')
+  .component('tests', tests);
 
