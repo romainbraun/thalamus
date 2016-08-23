@@ -1,0 +1,13 @@
+<h2>Tests admin</h2>
+
+<a ui-sref=".add">Create a new test</a>
+
+<h3>Existing tests:</h3>
+<ul>
+  <li ng-repeat="test in ::$ctrl.tests track by $index">
+    <a ui-sref="">
+         {{ ::test.name }}
+    </a>
+    <p>{{ ::test.description }}</p>
+  </li>
+</ul>

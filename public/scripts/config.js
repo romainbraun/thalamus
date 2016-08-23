@@ -11,3 +11,7 @@ function stateConfig($urlRouterProvider, $locationProvider) {
 angular
   .module('app')
   .config(stateConfig);
+
+angular
+  .module('admin')
+  .config(stateConfig);

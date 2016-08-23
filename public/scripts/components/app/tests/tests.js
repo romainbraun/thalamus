@@ -1,10 +1,8 @@
 var tests = {
 
-  bindings: {
-    project: '<'
-  },
+  bindings: {},
 
-  templateUrl: 'scripts/components/tests/tests.html',
+  templateUrl: 'scripts/components/app/tests/tests.html',
 
   controller: function($resource) {
     var Tests = $resource('api/tests');
