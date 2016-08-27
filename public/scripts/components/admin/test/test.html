@@ -1,0 +1,60 @@
+<h2>{{ ::$ctrl.test.name }}</h2>
+<p>{{ ::$ctrl.test.description }}</p>
+
+<h3>Questions in this test:</h3>
+
+<ul>
+  <li ng-repeat="question in $ctrl.questions">
+    <h4>{{ question.name }}</h4>
+  </li>
+</ul>
+
+<form ng-submit="$ctrl.addQuestion()">
+  <label>
+    Question name
+    <input type="text" name="name" ng-model="$ctrl.question.name">
+  </label>
+  <label>
+    Question content
+    <textarea ng-model="$ctrl.question.description"></textarea>
+  </label>
+  <label>
+    Question type
+    <label>
+      <input type="radio" ng-model="$ctrl.question.type" value="open">
+        Open
+    </label>
+    <label>
+      <input type="radio" ng-model="$ctrl.question.type" value="code">
+        Code
+    </label>
+    <label>
+      <input type="radio" ng-model="$ctrl.question.type" value="choice">
+        Choice
+    </label>
+  </label>
+
+  <div ng-if="$ctrl.question.type === 'choice'"
+       ng-init="$ctrl.question.answers = []">
+    <label>
+      Possible Answers:
+      <input type="text" name="name" ng-model="$ctrl.question.answers[0].name">
+      <label>
+        Correct answer
+        <input type="checkbox" ng-model="$ctrl.question.answers[0].correct">
+      </label>
+      <input type="text" name="name" ng-model="$ctrl.question.answers[1].name">
+      <label>
+        Correct answer
+        <input type="checkbox" ng-model="$ctrl.question.answers[1].correct">
+      </label>
+      <input type="text" name="name" ng-model="$ctrl.question.answers[2].name">
+      <label>
+        Correct answer
+        <input type="checkbox" ng-model="$ctrl.question.answers[2].correct">
+      </label>
+    </label>
+  </div>
+
+  <button type="submit">Add a question</button>
+</form>

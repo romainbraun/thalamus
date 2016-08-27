@@ -30,9 +30,15 @@ function adminStates($stateProvider) {
       component: 'tests',
     })
 
-    .state('tests_add', {
-      url: '/tests/add/',
-      component: 'newTest',
+    .state('test', {
+      url: '/test/:test/',
+      component: 'test',
+      resolve: {
+        test: function($stateParams, $resource) {
+          var Tests = $resource('api/tests/:id');
+          return Tests.get({id: $stateParams.test});
+        }
+      }
     });
 
     // .state('question', {

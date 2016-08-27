@@ -1,13 +1,24 @@
 <h2>Tests admin</h2>
 
-<a ui-sref="tests_add">Create a new test</a>
-
 <h3>Existing tests:</h3>
 <ul>
-  <li ng-repeat="test in $ctrl.tests track by $index">
-    <a>
+  <li ng-repeat="test in $ctrl.tests | orderBy: '-updated_at' track by $index">
+    <a ui-sref="test({test: test._id})">
          {{ ::test.name }}
     </a>
     <p>{{ ::test.description }}</p>
   </li>
 </ul>
+
+<form ng-submit="$ctrl.createTest()">
+  <label>
+    Test name
+    <input type="text" name="name" ng-model="$ctrl.test.name">
+  </label>
+  <label>
+    Test description
+    <input type="text" name="description" ng-model="$ctrl.test.description">
+  </label>
+
+  <button type="submit">Create</button>
+</form>
