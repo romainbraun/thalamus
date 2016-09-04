@@ -2,11 +2,11 @@ angular.module('app', ['ui.router', 'ngResource']);
 angular.module('admin', ['ui.router', 'ngResource']);
 function stateConfig($urlRouterProvider, $locationProvider) {
 
-  // $urlRouterProvider.when('', '/');
+  $urlRouterProvider.when('', '/');
 
   $locationProvider.html5Mode({
     enabled: true,
-    requireBase: false
+    requireBase: true
   });
 }
 
@@ -61,9 +61,12 @@ angular
 function adminStates($stateProvider) {
   $stateProvider
 
-    .state('home', {
-      url: '/',
+    .state('admin', {
+      url: '/admin/',
       component: 'home',
+      onEnter: function() {
+        console.log('what');
+      }
     })
 
     .state('tests', {
@@ -72,7 +75,7 @@ function adminStates($stateProvider) {
     })
 
     .state('test', {
-      url: '/test/:test/',
+      url: 'test/:test/',
       component: 'test',
       resolve: {
         test: function($stateParams, $resource) {
@@ -92,64 +95,6 @@ function adminStates($stateProvider) {
 angular
   .module('admin')
   .config(adminStates);
-var testComponent = {
-
-  bindings: {
-    test: '<'
-  },
-
-  templateUrl: 'assets/scripts/components/admin/test/test.html',
-
-  controller: function($resource) {
-    var Questions = $resource('/api/questions');
-
-    function getQuestions() {
-      this.questions = Questions.query({test_id: this.test._id});
-    }
-
-    this.$onInit = function() {
-      getQuestions.call(this);
-    };
-
-    this.addQuestion = function() {
-      this.question.test_id = this.test._id;
-      var question = new Questions(this.question);
-      question.$save();
-      getQuestions.call(this);
-      this.question = {};
-    };
-  }
-};
-
-angular
-  .module('admin')
-  .component('test', testComponent);
-
-
-var tests = {
-
-  bindings: {},
-
-  templateUrl: 'assets/scripts/components/admin/tests/tests.html',
-
-  controller: function($resource, $state) {
-    var Tests = $resource('/api/tests');
-    this.tests = Tests.query();
-
-    this.createTest = function() {
-      var test = new Tests(this.test);
-      test.$save(function(response) {
-        $state.go('test', {test: response._id});
-      });
-    };
-  }
-};
-
-angular
-  .module('admin')
-  .component('tests', tests);
-
-
 var home = {
 
   bindings: {},
@@ -258,4 +203,62 @@ var home = {
 angular
   .module('admin')
   .component('home', home);
+
+
+var testComponent = {
+
+  bindings: {
+    test: '<'
+  },
+
+  templateUrl: 'assets/scripts/components/admin/test/test.html',
+
+  controller: function($resource) {
+    var Questions = $resource('/api/questions');
+
+    function getQuestions() {
+      this.questions = Questions.query({test_id: this.test._id});
+    }
+
+    this.$onInit = function() {
+      getQuestions.call(this);
+    };
+
+    this.addQuestion = function() {
+      this.question.test_id = this.test._id;
+      var question = new Questions(this.question);
+      question.$save();
+      getQuestions.call(this);
+      this.question = {};
+    };
+  }
+};
+
+angular
+  .module('admin')
+  .component('test', testComponent);
+
+
+var tests = {
+
+  bindings: {},
+
+  templateUrl: 'assets/scripts/components/admin/tests/tests.html',
+
+  controller: function($resource, $state) {
+    var Tests = $resource('/api/tests');
+    this.tests = Tests.query();
+
+    this.createTest = function() {
+      var test = new Tests(this.test);
+      test.$save(function(response) {
+        $state.go('test', {test: response._id});
+      });
+    };
+  }
+};
+
+angular
+  .module('admin')
+  .component('tests', tests);
 

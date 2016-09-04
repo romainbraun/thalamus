@@ -7,7 +7,7 @@ var UserSchema = new mongoose.Schema({
     token: String,
     name: String
   },
-  passed: Boolean,
+  passed: [{type : mongoose.Schema.ObjectId, ref : 'Test'}],
   updated_at: { type: Date, default: Date.now },
 });
 module.exports = mongoose.model('User', UserSchema);

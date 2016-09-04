@@ -41,9 +41,12 @@ angular
 function adminStates($stateProvider) {
   $stateProvider
 
-    .state('home', {
-      url: '/',
+    .state('admin', {
+      url: '/admin/',
       component: 'home',
+      onEnter: function() {
+        console.log('what');
+      }
     })
 
     .state('tests', {
@@ -52,7 +55,7 @@ function adminStates($stateProvider) {
     })
 
     .state('test', {
-      url: '/test/:test/',
+      url: 'test/:test/',
       component: 'test',
       resolve: {
         test: function($stateParams, $resource) {

@@ -1,10 +1,10 @@
 function stateConfig($urlRouterProvider, $locationProvider) {
 
-  // $urlRouterProvider.when('', '/');
+  $urlRouterProvider.when('', '/');
 
   $locationProvider.html5Mode({
     enabled: true,
-    requireBase: false
+    requireBase: true
   });
 }
 
