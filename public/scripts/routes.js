@@ -4,12 +4,33 @@ function appStates($stateProvider) {
     .state('home', {
       url: '/',
       component: 'tests',
+    })
+
+    .state('tests', {
+      url: '/tests',
+      component: 'tests',
+    })
+
+    .state('test', {
+      url: '/test/:test',
+      component: 'test',
+      resolve: {
+        test: function($stateParams, $resource) {
+          var Tests = $resource('/api/tests/:id');
+          return Tests.get({id: $stateParams.test});
+        }
+      }
     });
 
-    // .state('question', {
-    //   url: '/question/:question',
-    //   templateUrl: '/question.html',
-    //   controller: 'QuestionController'
+    // .state('test.start', {
+    //   url: '/test/:test',
+    //   component: 'test',
+    //   resolve: {
+    //     test: function($stateParams, $resource) {
+    //       var Tests = $resource('/api/tests/:id');
+    //       return Tests.get({id: $stateParams.test});
+    //     }
+    //   }
     // });
 }
 
@@ -35,7 +56,7 @@ function adminStates($stateProvider) {
       component: 'test',
       resolve: {
         test: function($stateParams, $resource) {
-          var Tests = $resource('api/tests/:id');
+          var Tests = $resource('/api/tests/:id');
           return Tests.get({id: $stateParams.test});
         }
       }

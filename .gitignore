@@ -1,4 +1,6 @@
 node_modules
 public/scripts/vendor
 
+.env
+
 *.log

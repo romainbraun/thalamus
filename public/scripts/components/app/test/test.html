@@ -1,0 +1,33 @@
+<h2>{{ ::$ctrl.test.name }}</h2>
+<p>{{ ::$ctrl.test.description }}</p>
+
+<p>This test involves {{ $ctrl.questions.length }} questions with multiple choices, open answers, or code.</p>
+<p>Once you start this test there is no way to pause it. Your time will be logged.</p>
+
+<button ng-if="!$ctrl.question"
+        ng-click="$ctrl.next()">Start the test</button>
+
+<div class="questions">
+  <p ng-repeat="question in $ctrl.questions">{{question}}</p>
+</div>
+
+<div class="question"
+     ng-if="$ctrl.question">
+
+  <h3>Question {{ $ctrl.nextQuestion + 1 }}: {{ $ctrl.question.name }}</h3>
+  <p>{{ $ctrl.question.description }}</p>
+
+</div>
+
+<button ng-if="$ctrl.question && $ctrl.nextQuestion < $ctrl.questions.length - 1"
+        ng-click="$ctrl.next()">Next</button>
+
+<button ng-if="$ctrl.question && $ctrl.nextQuestion === $ctrl.questions.length - 1"
+        ng-click="$ctrl.next()">Done!</button>
+
+<div class="loading"
+     ng-if="$ctrl.loading">
+
+  <span>Loading...</span>       
+
+</div>

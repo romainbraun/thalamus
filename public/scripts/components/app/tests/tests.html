@@ -1,8 +1,8 @@
 <h2>List of available tests</h2>
 
 <ul>
-  <li ng-repeat="test in ::$ctrl.tests track by $index">
-    <a ui-sref="">
+  <li ng-repeat="test in $ctrl.tests track by $index">
+    <a ui-sref="test({test: test._id})">
          {{ ::test.name }}
     </a>
     <p>{{ ::test.description }}</p>

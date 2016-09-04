@@ -2,11 +2,15 @@ var tests = {
 
   bindings: {},
 
-  templateUrl: 'scripts/components/app/tests/tests.html',
+  templateUrl: 'assets/scripts/components/app/tests/tests.html',
 
   controller: function($resource) {
-    var Tests = $resource('api/tests');
-    this.tests = Tests.query();
+    var Tests = $resource('/api/tests');
+
+    this.$onInit = function() {
+      this.tests = Tests.query();
+    };
+
   }
 };
 

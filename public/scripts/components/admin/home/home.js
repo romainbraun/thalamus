@@ -4,7 +4,7 @@ var home = {
     project: '<'
   },
 
-  templateUrl: 'scripts/components/admin/home/home.html',
+  templateUrl: 'assets/scripts/components/admin/home/home.html',
 
   controller: function() {
     

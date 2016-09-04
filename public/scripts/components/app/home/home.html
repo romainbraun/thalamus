@@ -1,0 +1,16 @@
+<p>Welcome</p>
+
+<p>Please sign in with your name and e-mail</p>
+
+<form ng-submit="$ctrl.createUser()">
+  <label>
+    Name
+    <input type="text" name="name" ng-model="$ctrl.user.name">
+  </label>
+  <label>
+    E-mail
+    <input type="email" name="email" ng-model="$ctrl.user.email">
+  </label>
+
+  <button type="submit">Sign in</button>
+</form>

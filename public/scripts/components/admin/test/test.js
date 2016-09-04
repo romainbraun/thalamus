@@ -4,10 +4,10 @@ var testComponent = {
     test: '<'
   },
 
-  templateUrl: 'scripts/components/admin/test/test.html',
+  templateUrl: 'assets/scripts/components/admin/test/test.html',
 
   controller: function($resource) {
-    var Questions = $resource('api/questions');
+    var Questions = $resource('/api/questions');
 
     function getQuestions() {
       this.questions = Questions.query({test_id: this.test._id});
