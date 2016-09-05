@@ -6,6 +6,11 @@
 <ul>
   <li ng-repeat="question in $ctrl.questions">
     <h4>{{ question.name }}</h4>
+    <span>Type: {{ question.type }}</span>
+    <p>{{ question.description }}</p>
+    <ul>
+      <li ng-repeat="answer in question.answers">{{ answer.name }} <span ng-if="answer.correct">(Correct)</span></li>
+    </ul>
   </li>
 </ul>
 
@@ -35,25 +40,18 @@
   </label>
 
   <div ng-if="$ctrl.question.type === 'choice'"
-       ng-init="$ctrl.question.answers = []">
+       ng-init="$ctrl.question.answers = [{}]">
     <label>
       Possible Answers:
-      <input type="text" name="name" ng-model="$ctrl.question.answers[0].name">
-      <label>
-        Correct answer
-        <input type="checkbox" ng-model="$ctrl.question.answers[0].correct">
-      </label>
-      <input type="text" name="name" ng-model="$ctrl.question.answers[1].name">
-      <label>
-        Correct answer
-        <input type="checkbox" ng-model="$ctrl.question.answers[1].correct">
-      </label>
-      <input type="text" name="name" ng-model="$ctrl.question.answers[2].name">
-      <label>
-        Correct answer
-        <input type="checkbox" ng-model="$ctrl.question.answers[2].correct">
-      </label>
+      <div ng-repeat="answer in $ctrl.question.answers">
+        <input type="text" name="name" ng-model="answer.name">
+        <label>
+          Correct answer
+          <input type="checkbox" ng-model="answer.correct">
+        </label>  
+      </div>
     </label>
+    <button type="button" ng-click="$ctrl.question.answers.push({}); ">Add Possible Answer </button>
   </div>
 
   <button type="submit">Add a question</button>

@@ -8,7 +8,7 @@
         ng-click="$ctrl.next()">Start the test</button>
 
 <div class="questions">
-  <p ng-repeat="question in $ctrl.questions">{{question}}</p>
+  <p ng-repeat="question in $ctrl.questions track by $index">{{question}}</p>
 </div>
 
 <div class="question"
@@ -16,6 +16,25 @@
 
   <h3>Question {{ $ctrl.nextQuestion + 1 }}: {{ $ctrl.question.name }}</h3>
   <p>{{ $ctrl.question.description }}</p>
+
+  <div ng-switch="$ctrl.question.type">
+
+    <div ng-switch-when="code">
+      <textarea placeholder="code"></textarea>
+    </div>
+
+    <div ng-switch-when="choice">
+      <label ng-repeat="answer in $ctrl.question.answers track by $index">
+        <input type="radio" name="choice" ng-value="'{{ answer._id }}'" ng-model="$ctrl.choice">
+        <span>{{ answer.name }}</span>
+      </label>
+    </div>
+
+    <div ng-switch-default>
+      <textarea placeholder="open question"></textarea>
+    </div>
+
+  </div>
 
 </div>
 

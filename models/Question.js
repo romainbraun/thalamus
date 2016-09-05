@@ -1,11 +1,11 @@
 var mongoose = require('mongoose'),
-    Answer = require('./Answer').schema;
+    Choice = require('./Choice').schema;
 
 var QuestionSchema = new mongoose.Schema({
   name: String,
   description: String,
   type: {type: String, default: 'open'},
-  answers: [Answer],
+  answers: [Choice],
   test_id: {type : mongoose.Schema.ObjectId, ref : 'Test'},
   updated_at: { type: Date, default: Date.now },
 });

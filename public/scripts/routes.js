@@ -50,12 +50,12 @@ function adminStates($stateProvider) {
     })
 
     .state('tests', {
-      url: '/tests/',
+      url: '/admin/tests/',
       component: 'tests',
     })
 
     .state('test', {
-      url: 'test/:test/',
+      url: '/admin/test/:test/',
       component: 'test',
       resolve: {
         test: function($stateParams, $resource) {

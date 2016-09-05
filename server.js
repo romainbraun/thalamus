@@ -28,7 +28,6 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(token, tokenSecret, profile, done) {
-    console.log(profile);
     User.findOne({ 'google.id' : profile.id }, function(err, user) {
       if (err) return done(err);
 
@@ -76,21 +75,21 @@ app.use(passport.session());
 app.use('/assets', express.static(path.join(__dirname, 'public')));
 
 app.get('/', isLoggedIn, function (req, res) {
-  console.log('HOME');
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.get('/login', function (req, res) {
-  console.log('LOGIN');
+app.get('/test/*', isLoggedIn, function (req, res) {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
+app.get('/login', function (req, res) { 
   res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-app.get('/admin', function (req, res) {
+app.get('/admin/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public/admin.html'));
 });
-// app.use('/questions', questions);
-// app.use('/questions', questions);
-// app.use('/admin', admin);
+
 app.use('/api', api);
 
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
@@ -149,14 +148,10 @@ mongoose.connect('mongodb://localhost/thalamus')
   });
 
 function isLoggedIn(req, res, next) {
-  console.log('yo!');
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
-        return next();
-    // res.render(req);
-    // if they aren't redirect them to the home page
-    console.log('FAILURE');
-    res.redirect('/login');
+  if (req.isAuthenticated())
+      return next();
+  
+  res.redirect('/login');
 }
 
 

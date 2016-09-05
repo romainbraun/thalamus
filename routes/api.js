@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var Test = require('../models/Test.js');
 var Question = require('../models/Question.js');
 var User = require('../models/User.js');
+var Answer = require('../models/Answer.js').model;
+var Choice = require('../models/Choice.js').model;
 
 router.get('/tests', function(req, res, next) {
   Test.find(function (err, tests) {
@@ -16,7 +18,7 @@ router.get('/questions', function(req, res, next) {
   Question.find({test_id: req.query.test_id}, function (err, questions) {
     if (err) return next(err);
     if (req.query.list) {
-      questions = questions.map(function (question) {
+      questions = questions.map(function(question) {
         return question._id;
       });
     }
@@ -27,14 +29,22 @@ router.get('/questions', function(req, res, next) {
 router.get('/questions/:id', function(req, res, next) {
   Question.findOne({_id: req.params.id}, function (err, question) {
     if (err) return next(err);
+    question = question.toObject();
+
+    question.answers = question.answers.map(function(answer) {
+      delete answer.correct;
+      return answer;
+    });
+    
     res.json(question);
   });
 });
 
 router.get('/tests/:id', function(req, res, next) {
-  Test.findOne({_id: req.params.id}, function (err, tests) {
+  console.log(req.user);
+  Test.findOne({_id: req.params.id}, function (err, test) {
     if (err) return next(err);
-    res.json(tests);
+    res.json(test);
   });
 });
 
@@ -61,6 +71,30 @@ router.post('/questions', function(req, res, next) {
     if (err) return next(err);
     res.json(response);
   });
+});
+
+router.post('/answers', function(req, res, next) {
+  var answer = req.body;
+
+  Choice.findOne({_id: answer.choice_id}, function(err, choice) {
+    console.log(answer.choice_id);
+    console.log(choice);
+    if (err) return next(err);
+    answer.correct = choice.correct;
+
+    User.findOne({_id: req.user._id}, function(err, user) {
+      if (err) return next(err);
+      answer.user_id = user._id;
+
+      Answer.create(answer, function (err, response) {
+        if (err) return next(err);
+        res.json(response);
+      });
+    });
+
+    
+  });
+  
 });
 
 module.exports = router;

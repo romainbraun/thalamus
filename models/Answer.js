@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 
 var AnswerSchema = new mongoose.Schema({
-  name: String,
+  user_id: {type : mongoose.Schema.ObjectId, ref : 'User'},
+  question_id: {type : mongoose.Schema.ObjectId, ref : 'Question'},
+  content: String,
   correct: Boolean,
   updated_at: { type: Date, default: Date.now },
 });
