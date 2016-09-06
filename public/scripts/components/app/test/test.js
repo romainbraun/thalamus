@@ -31,6 +31,7 @@ var testComponent = {
       this.loading = true;
       this.question = Questions.get({id: this.questions[this.nextQuestion]}, function() {
         this.loading = false;
+        this.choice = this.userContent = null;
       }.bind(this));
     }
 
@@ -38,10 +39,14 @@ var testComponent = {
       if (this.question) {
         var answer = new Answers({
           question_id: this.question._id,
-          choice_id: this.choice
+          choice_id: this.choice,
+          content: this.userContent
         });
 
-        answer.$save();
+        answer.$save(function(response) {
+          console.log(response);
+          callback.call(this);
+        }.bind(this));
       } else {
         callback.call(this);
       }

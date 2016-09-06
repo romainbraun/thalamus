@@ -76,11 +76,12 @@ router.post('/questions', function(req, res, next) {
 router.post('/answers', function(req, res, next) {
   var answer = req.body;
 
-  Choice.findOne({_id: answer.choice_id}, function(err, choice) {
-    console.log(answer.choice_id);
-    console.log(choice);
+  Question.findOne({_id: answer.question_id}, function(err, question) {
     if (err) return next(err);
-    answer.correct = choice.correct;
+    
+    answer.correct = question.answers.some(function(choice) {
+      return choice.id === answer.choice_id && choice.correct;
+    });
 
     User.findOne({_id: req.user._id}, function(err, user) {
       if (err) return next(err);

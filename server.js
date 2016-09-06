@@ -51,6 +51,7 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
+  console.log(user._id);
     done(null, user._id);
 });
 

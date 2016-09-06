@@ -20,7 +20,7 @@
   <div ng-switch="$ctrl.question.type">
 
     <div ng-switch-when="code">
-      <textarea placeholder="code"></textarea>
+      <textarea placeholder="code" ng-model="$ctrl.userContent"></textarea>
     </div>
 
     <div ng-switch-when="choice">
@@ -31,7 +31,7 @@
     </div>
 
     <div ng-switch-default>
-      <textarea placeholder="open question"></textarea>
+      <textarea placeholder="open question" ng-model="$ctrl.userContent"></textarea>
     </div>
 
   </div>
