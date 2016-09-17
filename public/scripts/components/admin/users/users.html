@@ -1,0 +1,10 @@
+<h2>Users admin</h2>
+
+<h3>Last candidates:</h3>
+<ul>
+  <li ng-repeat="user in $ctrl.users | orderBy: '-updated_at' track by $index">
+    <a ng-href="mailto:{{ user.google.email }}">
+         {{ user.google.name }}
+    </a>
+  </li>
+</ul>

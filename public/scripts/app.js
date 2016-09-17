@@ -88,6 +88,11 @@ function adminStates($stateProvider) {
       component: 'tests',
     })
 
+    .state('users', {
+      url: '/admin/users/',
+      component: 'users',
+    })
+
     .state('test', {
       url: '/admin/test/:test/',
       component: 'test',
@@ -109,6 +114,26 @@ function adminStates($stateProvider) {
 angular
   .module('admin')
   .config(adminStates);
+function UserFactory($resource) {
+
+  var Factory = $resource(
+    '/api/users/:id', 
+    {id: '@id'}, 
+    {
+      hasPassed: {
+        method: 'POST',
+        url: '/api/users/passed'
+      }
+    }
+  );
+
+  return Factory;
+}
+
+angular
+  .module('app')
+  .factory('UserFactory', UserFactory);
+
 var home = {
 
   bindings: {
@@ -185,6 +210,23 @@ angular
   .component('tests', tests);
 
 
+var users = {
+
+  bindings: {},
+
+  templateUrl: 'assets/scripts/components/admin/users/users.html',
+
+  controller: function($resource, $state) {
+    var users = $resource('/api/users');
+    this.users = users.query();
+  }
+};
+
+angular
+  .module('admin')
+  .component('users', users);
+
+
 var home = {
 
   bindings: {},
@@ -218,7 +260,7 @@ var testComponent = {
 
   templateUrl: 'assets/scripts/components/app/test/test.html',
 
-  controller: function($resource, $state) {
+  controller: function($resource, $state, UserFactory) {
     var Questions = $resource('/api/questions/:id'),
         Answers = $resource('/api/answers/');
 
@@ -234,9 +276,14 @@ var testComponent = {
         if (this.nextQuestion < this.questions.length - 1) {
           getQuestion.call(this);
         } else {
+          UserFactory.hasPassed({test: this.test._id});
           $state.go('end');
         }
       });
+    };
+
+    this.try = function() {
+      
     };
 
     function getQuestion() {

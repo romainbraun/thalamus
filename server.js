@@ -5,23 +5,16 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var api = require('./routes/api');
+var tests = require('./routes/tests');
+var questions = require('./routes/questions');
+var users = require('./routes/users');
+var answers = require('./routes/answers');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('./models/User.js');
 
 var app = express();
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.use(express.static(__dirname + '/public'));
-// app.set('view engine', 'html');
-// app.engine('html', require('ejs').renderFile);
-// app.set('view engine', 'html');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-//
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CONSUMER_KEY,
     clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
@@ -35,6 +28,7 @@ passport.use(new GoogleStrategy({
         return done(null, user);
       } else {
         var newUser          = new User();
+        
         newUser.google.id    = profile.id;
         newUser.google.token = token;
         newUser.google.name  = profile.displayName;
@@ -91,7 +85,10 @@ app.get('/admin/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public/admin.html'));
 });
 
-app.use('/api', api);
+app.use('/api/users', users);
+app.use('/api/tests', tests);
+app.use('/api/questions', questions);
+app.use('/api/answers', answers);
 
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 

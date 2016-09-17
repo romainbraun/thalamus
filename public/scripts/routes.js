@@ -54,6 +54,11 @@ function adminStates($stateProvider) {
       component: 'tests',
     })
 
+    .state('users', {
+      url: '/admin/users/',
+      component: 'users',
+    })
+
     .state('test', {
       url: '/admin/test/:test/',
       component: 'test',

@@ -6,7 +6,7 @@ var testComponent = {
 
   templateUrl: 'assets/scripts/components/app/test/test.html',
 
-  controller: function($resource, $state) {
+  controller: function($resource, $state, UserFactory) {
     var Questions = $resource('/api/questions/:id'),
         Answers = $resource('/api/answers/');
 
@@ -22,9 +22,14 @@ var testComponent = {
         if (this.nextQuestion < this.questions.length - 1) {
           getQuestion.call(this);
         } else {
+          UserFactory.hasPassed({test: this.test._id});
           $state.go('end');
         }
       });
+    };
+
+    this.try = function() {
+      
     };
 
     function getQuestion() {
