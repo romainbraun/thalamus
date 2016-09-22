@@ -22,10 +22,19 @@ function stateConfig($urlRouterProvider, $locationProvider) {
   });
 }
 
+function materialConfig($mdThemingProvider) {
+  $mdThemingProvider
+    .theme('default')
+    .primaryPalette('blue-grey');
+
+}
+
 angular
   .module('app')
-  .config(stateConfig);
+  .config(stateConfig)
+  .config(materialConfig);
 
 angular
   .module('admin')
-  .config(stateConfig);
+  .config(stateConfig)
+  .config(materialConfig);

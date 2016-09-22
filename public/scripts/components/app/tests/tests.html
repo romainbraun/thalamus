@@ -1,10 +1,19 @@
-<h2>List of available tests</h2>
+<div layout="column" layout-align="center center" ng-cloak>
 
-<ul>
-  <li ng-repeat="test in $ctrl.tests track by $index">
-    <a ui-sref="test({test: test._id})">
-         {{ ::test.name }}
-    </a>
-    <p>{{ ::test.description }}</p>
-  </li>
-</ul>
+  <md-content class="md-whiteframe-z1">
+    <md-list class="md-dense flex">
+      <md-subheader>List of available tests</md-subheader>
+    </md-list>
+
+    <md-list-item class="md-2-line"
+                  ng-repeat="test in $ctrl.tests track by $index"
+                  ng-click="$ctrl.openTest(test._id)">
+      <div class="md-list-item-text">
+        <h3>{{ ::test.name }}</h3>
+        <p>{{ ::test.description }}</p>  
+      </div>
+      
+    </md-list-item>
+  </md-content>
+
+</div>

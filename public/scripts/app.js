@@ -1,5 +1,5 @@
-angular.module('app', ['ui.router', 'ngResource']);
-angular.module('admin', ['ui.router', 'ngResource']);
+angular.module('app', ['ui.router', 'ngResource', 'ngMaterial', 'ngAnimate']);
+angular.module('admin', ['ui.router', 'ngResource', 'ngMaterial', 'ngAnimate']);
 function stateConfig($urlRouterProvider, $locationProvider) {
 
   $urlRouterProvider.when('', '/');
@@ -24,13 +24,22 @@ function stateConfig($urlRouterProvider, $locationProvider) {
   });
 }
 
+function materialConfig($mdThemingProvider) {
+  $mdThemingProvider
+    .theme('default')
+    .primaryPalette('blue-grey');
+
+}
+
 angular
   .module('app')
-  .config(stateConfig);
+  .config(stateConfig)
+  .config(materialConfig);
 
 angular
   .module('admin')
-  .config(stateConfig);
+  .config(stateConfig)
+  .config(materialConfig);
 
 function appStates($stateProvider) {
   $stateProvider
@@ -210,21 +219,29 @@ angular
   .component('tests', tests);
 
 
-var users = {
+var tests = {
 
   bindings: {},
 
-  templateUrl: 'assets/scripts/components/admin/users/users.html',
+  templateUrl: 'assets/scripts/components/app/tests/tests.html',
 
   controller: function($resource, $state) {
-    var users = $resource('/api/users');
-    this.users = users.query();
+    var Tests = $resource('/api/tests');
+
+    this.$onInit = function() {
+      this.tests = Tests.query();
+    };
+
+    this.openTest = function(id) {
+      $state.go('test', {test: id});
+    };
+
   }
 };
 
 angular
-  .module('admin')
-  .component('users', users);
+  .module('app')
+  .component('tests', tests);
 
 
 var home = {
@@ -250,6 +267,23 @@ var home = {
 angular
   .module('app')
   .component('home', home);
+
+
+var users = {
+
+  bindings: {},
+
+  templateUrl: 'assets/scripts/components/admin/users/users.html',
+
+  controller: function($resource, $state) {
+    var users = $resource('/api/users');
+    this.users = users.query();
+  }
+};
+
+angular
+  .module('admin')
+  .component('users', users);
 
 
 var testComponent = {
@@ -316,25 +350,4 @@ var testComponent = {
 angular
   .module('app')
   .component('test', testComponent);
-
-
-var tests = {
-
-  bindings: {},
-
-  templateUrl: 'assets/scripts/components/app/tests/tests.html',
-
-  controller: function($resource) {
-    var Tests = $resource('/api/tests');
-
-    this.$onInit = function() {
-      this.tests = Tests.query();
-    };
-
-  }
-};
-
-angular
-  .module('app')
-  .component('tests', tests);
 

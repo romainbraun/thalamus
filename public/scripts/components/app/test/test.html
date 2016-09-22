@@ -4,8 +4,9 @@
 <p>This test involves {{ $ctrl.questions.length }} questions with multiple choices, open answers, or code.</p>
 <p>Once you start this test there is no way to pause it. Your time will be logged.</p>
 
-<button ng-if="!$ctrl.question"
-        ng-click="$ctrl.next()">Start the test</button>
+<md-button class="md-raised md-primary"
+           ng-if="!$ctrl.question"
+           ng-click="$ctrl.next()">Start the test</md-button>
 
 <div class="questions">
   <p ng-repeat="question in $ctrl.questions track by $index">{{question}}</p>
@@ -38,11 +39,11 @@
 
 </div>
 
-<button ng-if="$ctrl.question && $ctrl.nextQuestion < $ctrl.questions.length - 1"
-        ng-click="$ctrl.next()">Next</button>
+<md-button ng-if="$ctrl.question && $ctrl.nextQuestion < $ctrl.questions.length - 1"
+        ng-click="$ctrl.next()">Next</md-button>
 
-<button ng-if="$ctrl.question && $ctrl.nextQuestion === $ctrl.questions.length - 1"
-        ng-click="$ctrl.next()">Done!</button>
+<md-button ng-if="$ctrl.question && $ctrl.nextQuestion === $ctrl.questions.length - 1"
+        ng-click="$ctrl.next()">Done!</md-button>
 
 <div class="loading"
      ng-if="$ctrl.loading">
@@ -51,4 +52,4 @@
 
 </div>
 
-<button ng-click="$ctrl.try()">test</button>
+<md-button ng-click="$ctrl.try()">test</md-button>
