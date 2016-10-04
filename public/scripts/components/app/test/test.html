@@ -1,55 +1,97 @@
-<h2>{{ ::$ctrl.test.name }}</h2>
-<p>{{ ::$ctrl.test.description }}</p>
+<div layout="column" layout-align="center center" ng-cloak flex layout-margin>
 
-<p>This test involves {{ $ctrl.questions.length }} questions with multiple choices, open answers, or code.</p>
-<p>Once you start this test there is no way to pause it. Your time will be logged.</p>
+  <md-content layout="column" layout-align="center center" layout-padding layout-wrap>
 
-<md-button class="md-raised md-primary"
-           ng-if="!$ctrl.question"
-           ng-click="$ctrl.next()">Start the test</md-button>
+    <h2>{{ ::$ctrl.test.name }}</h2>
 
-<div class="questions">
-  <p ng-repeat="question in $ctrl.questions track by $index">{{question}}</p>
-</div>
+    <p ng-if="!$ctrl.question">
+      {{ ::$ctrl.test.description }}
+    </p>
 
-<div class="question"
-     ng-if="$ctrl.question">
+  </md-content>
 
-  <h3>Question {{ $ctrl.nextQuestion + 1 }}: {{ $ctrl.question.name }}</h3>
-  <p>{{ $ctrl.question.description }}</p>
+  <md-button class="md-raised md-primary"
+             ng-if="!$ctrl.question"
+             ng-click="$ctrl.showConfirmationDialog()">Start the test</md-button>
 
-  <div ng-switch="$ctrl.question.type">
+  <div style="visibility: hidden">
 
-    <div ng-switch-when="code">
-      <textarea placeholder="code" ng-model="$ctrl.userContent"></textarea>
-    </div>
+    <div class="md-dialog-container" id="confirmationDialog">
 
-    <div ng-switch-when="choice">
-      <label ng-repeat="answer in $ctrl.question.answers track by $index">
-        <input type="radio" name="choice" ng-value="'{{ answer._id }}'" ng-model="$ctrl.choice">
-        <span>{{ answer.name }}</span>
-      </label>
-    </div>
+      <md-dialog>
 
-    <div ng-switch-default>
-      <textarea placeholder="open question" ng-model="$ctrl.userContent"></textarea>
+        <md-dialog-content class="md-dialog-content">
+
+          <h3 class="md-title">Are you sure?</h3>
+
+          <p>This test involves {{ $ctrl.questions.length }} questions with multiple choices, open answers, or code.
+          <br>
+          Once you start this test there is no way to pause it. Your time will be logged.</p>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+
+          <md-button ng-click="$ctrl.cancel()">Cancel</md-button>
+
+          <md-button ng-click="$ctrl.next()">I'm ready</md-button>
+
+        </md-dialog-actions>
+
+      </md-dialog>
+
     </div>
 
   </div>
 
-</div>
+  <div class="question"
+       ng-if="$ctrl.question && !$ctrl.done">
 
-<md-button ng-if="$ctrl.question && $ctrl.nextQuestion < $ctrl.questions.length - 1"
-        ng-click="$ctrl.next()">Next</md-button>
+    <h3>Question {{ $ctrl.nextQuestion + 1 }}: {{ $ctrl.question.name }}</h3>
+    <p>{{ $ctrl.question.description }}</p>
 
-<md-button ng-if="$ctrl.question && $ctrl.nextQuestion === $ctrl.questions.length - 1"
-        ng-click="$ctrl.next()">Done!</md-button>
+    <div ng-switch="$ctrl.question.type">
 
-<div class="loading"
-     ng-if="$ctrl.loading">
+      <div ng-switch-when="code">
+        <textarea placeholder="code" ng-model="$ctrl.userContent"></textarea>
+      </div>
 
-  <span>Loading...</span>       
+      <div ng-switch-when="choice">
+        <label ng-repeat="answer in $ctrl.question.answers track by $index">
+          <input type="radio" name="choice" ng-value="'{{ answer._id }}'" ng-model="$ctrl.choice">
+          <span>{{ answer.name }}</span>
+        </label>
+      </div>
 
-</div>
+      <div ng-switch-default>
+        <textarea placeholder="open question" ng-model="$ctrl.userContent"></textarea>
+      </div>
 
-<md-button ng-click="$ctrl.try()">test</md-button>
+    </div>
+
+  </div>
+
+  <div class="end"
+       ng-if="$ctrl.done">
+
+    <h3>Thank you for taking this test! You can close this page.</h3>
+    
+  </div>
+
+  <div layout="row" layout-sm="column" layout-align="space-around" ng-if="$ctrl.loading">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <md-button class="md-raised md-primary"
+             ng-if="$ctrl.question && 
+                    $ctrl.nextQuestion < $ctrl.questions.length - 1 && 
+                    !$ctrl.loading"
+             ng-click="$ctrl.next()">Next</md-button>
+
+  <md-button class="md-raised md-primary"
+             ng-if="$ctrl.question && 
+                    $ctrl.nextQuestion === $ctrl.questions.length - 1 && 
+                    !$ctrl.loading"
+             ng-click="$ctrl.next()">Done!</md-button>
+
+  </div>

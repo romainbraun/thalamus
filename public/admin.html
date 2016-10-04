@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html id="ng-app"
       xmlns:ng="http://angularjs.org"
-      ng-app="admin">
+      ng-app="admin"
+      ng-cloak>
   <head>
     <title>Welcome to the Thalamus Admin</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
@@ -9,11 +10,35 @@
     <link rel="stylesheet" type="text/css" href="/assets/styles/style.css">
     <base href="/">
   </head>
-  <body>
+  <body layout="column">
 
-    <h1>Thalamus Admin</h1>
+    <md-toolbar layout-align="center center">
 
-    <div ui-view></div>
+      <h1 class="md-display-3">Thalamus Admin</h1>
+
+    </md-toolbar>
+
+    <div layout="row" flex>
+      <md-sidenav md-component-id="left" class="md-sidenav-left md-whiteframe-4dp" md-is-locked-open="true" flex="none">
+        <md-list>
+          <md-list-item flex>
+            <md-button ui-sref="tests">
+              <md-icon md-svg-src="/assets/images/ic_extension_black_24px.svg"></md-icon>
+              Test Admin
+            </md-button>
+          </md-list-item>
+          <md-list-item>
+            <md-button ui-sref="users">
+              <md-icon md-svg-src="/assets/images/ic_face_black_24px.svg"></md-icon>
+              User Admin
+            </md-button>
+          </md-list-item>
+        </md-list>
+      </md-sidenav>
+      <md-content ui-view flex layout="column">
+        
+      </md-content>
+    </div>
 
     <script type="text/javascript" src="/assets/scripts/vendor/angular/angular.min.js"></script>
     <script type="text/javascript" src="/assets/scripts/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>

@@ -6,7 +6,7 @@ var testComponent = {
 
   templateUrl: 'assets/scripts/components/app/test/test.html',
 
-  controller: function($resource, $state, UserFactory) {
+  controller: function($resource, $state, $scope, $mdDialog, UserFactory) {
     var Questions = $resource('/api/questions/:id'),
         Answers = $resource('/api/answers/');
 
@@ -16,20 +16,34 @@ var testComponent = {
     };
 
     this.next = function() {
+      this.loading = true;
+
+      $mdDialog.hide();
+
       sendAnswer.call(this, function() {
         this.nextQuestion++;
 
-        if (this.nextQuestion < this.questions.length - 1) {
+        if (this.nextQuestion < this.questions.length) {
           getQuestion.call(this);
         } else {
           UserFactory.hasPassed({test: this.test._id});
-          $state.go('end');
+          this.loading = false;
+          this.done = true;
         }
       });
     };
 
-    this.try = function() {
-      
+    this.showConfirmationDialog = function(event) {
+      $mdDialog.show({
+        contentElement: '#confirmationDialog',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true
+      });
+    };
+
+    this.cancel = function() {
+      $mdDialog.cancel();
     };
 
     function getQuestion() {
@@ -37,6 +51,7 @@ var testComponent = {
       this.question = Questions.get({id: this.questions[this.nextQuestion]}, function() {
         this.loading = false;
         this.choice = this.userContent = null;
+        this.loading = false;
       }.bind(this));
     }
 
@@ -49,7 +64,6 @@ var testComponent = {
         });
 
         answer.$save(function(response) {
-          console.log(response);
           callback.call(this);
         }.bind(this));
       } else {

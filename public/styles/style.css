@@ -20,26 +20,26 @@
   opacity:1;
 }
 
-.ng-leave {
-  -webkit-transform: translate(0, 0);
-     -moz-transform: translate(0, 0);
-      -ms-transform: translate(0, 0);
-       -o-transform: translate(0, 0);
-          transform: translate(0, 0);
-  -webkit-transition: all 0.3s;
-     -moz-transition: all 0.3s;
-          transition: all 0.3s;
+// .ng-leave {
+//   -webkit-transform: translate(0, 0);
+//      -moz-transform: translate(0, 0);
+//       -ms-transform: translate(0, 0);
+//        -o-transform: translate(0, 0);
+//           transform: translate(0, 0);
+//   -webkit-transition: all 0.3s;
+//      -moz-transition: all 0.3s;
+//           transition: all 0.3s;
 
-  opacity:1;
-}
-.ng-leave.ng-leave-active {
-  -webkit-transform: translate(20px, 0);
-     -moz-transform: translate(20px, 0);
-      -ms-transform: translate(20px, 0);
-       -o-transform: translate(20px, 0);
-          transform: translate(20px, 0);
-  opacity:0;
-}
+//   opacity:1;
+// }
+// .ng-leave.ng-leave-active {
+//   -webkit-transform: translate(20px, 0);
+//      -moz-transform: translate(20px, 0);
+//       -ms-transform: translate(20px, 0);
+//        -o-transform: translate(20px, 0);
+//           transform: translate(20px, 0);
+//   opacity:0;
+// }
 
 .ng-enter-stagger {
   /* this will have a 100ms delay between each successive leave animation */

@@ -1,24 +1,43 @@
-<h2>Tests admin</h2>
+<div layout="column" layout-align="center center" ng-cloak flex layout-margin>
 
-<h3>Existing tests:</h3>
-<ul>
-  <li ng-repeat="test in $ctrl.tests | orderBy: '-updated_at' track by $index">
-    <a ui-sref="test({test: test._id})">
-         {{ ::test.name }}
-    </a>
-    <p>{{ ::test.description }}</p>
-  </li>
-</ul>
+  <!-- <md-content layout="column" layout-align="center center" layout-padding> -->
+    <h2>Tests admin</h2>
 
-<form ng-submit="$ctrl.createTest()">
-  <label>
-    Test name
-    <input type="text" name="name" ng-model="$ctrl.test.name">
-  </label>
-  <label>
-    Test description
-    <input type="text" name="description" ng-model="$ctrl.test.description">
-  </label>
+    <md-list class="md-dense flex">
 
-  <button type="submit">Create</button>
-</form>
+      <md-subheader>Existing tests</md-subheader>
+
+      <md-list-item class="md-2-line" 
+                    ng-repeat="test in $ctrl.tests | orderBy: '-updated_at' track by $index"
+                    ui-sref="test({test: test._id})">
+
+        <div class="md-list-item-text">
+
+          <h3>{{ ::test.name }}</h3>
+
+          <p>{{ ::test.description }}</p>  
+
+        </div>
+
+      </md-list-item>
+
+    </md-list>
+
+    <!-- <form ng-submit="$ctrl.createTest()">
+      <label>
+        Test name
+        <input type="text" name="name" ng-model="$ctrl.test.name">
+      </label>
+      <label>
+        Test description
+        <input type="text" name="description" ng-model="$ctrl.test.description">
+      </label>
+
+      <button type="submit">Create</button>
+    </form> -->
+
+  <md-button class="md-fab md-primary md-fab-bottom-right" aria-label="Eat cake">
+    <md-icon md-svg-src="assets/images/ic_add_white_24px.svg"></md-icon>
+  </md-button>
+
+</div>

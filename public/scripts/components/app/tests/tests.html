@@ -1,19 +1,27 @@
-<div layout="column" layout-align="center center" ng-cloak>
+<div layout="column" layout-align="center center" ng-cloak flex layout-margin>
 
-  <md-content class="md-whiteframe-z1">
+  <md-content class="md-whiteframe-z1" flex>
+
     <md-list class="md-dense flex">
+
       <md-subheader>List of available tests</md-subheader>
+
+      <md-list-item class="md-2-line"
+                    ng-repeat="test in $ctrl.tests track by $index"
+                    ng-click="$ctrl.openTest(test._id)">
+
+        <div class="md-list-item-text">
+
+          <h3>{{ ::test.name }}</h3>
+
+          <p>{{ ::test.description }}</p>  
+
+        </div>
+        
+      </md-list-item>
+
     </md-list>
 
-    <md-list-item class="md-2-line"
-                  ng-repeat="test in $ctrl.tests track by $index"
-                  ng-click="$ctrl.openTest(test._id)">
-      <div class="md-list-item-text">
-        <h3>{{ ::test.name }}</h3>
-        <p>{{ ::test.description }}</p>  
-      </div>
-      
-    </md-list-item>
   </md-content>
 
 </div>
