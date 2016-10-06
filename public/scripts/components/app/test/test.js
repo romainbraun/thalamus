@@ -59,6 +59,7 @@ var testComponent = {
       if (this.question) {
         var answer = new Answers({
           question_id: this.question._id,
+          test_id: this.test._id,
           choice_id: this.choice,
           content: this.userContent
         });

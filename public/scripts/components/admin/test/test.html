@@ -1,58 +1,133 @@
-<h2>{{ ::$ctrl.test.name }}</h2>
-<p>{{ ::$ctrl.test.description }}</p>
+<div layout="column" ng-cloak flex layout-margin>
 
-<h3>Questions in this test:</h3>
+  <md-content layout="column" layout-padding layout-wrap>
 
-<ul>
-  <li ng-repeat="question in $ctrl.questions">
-    <h4>{{ question.name }}</h4>
-    <span>Type: {{ question.type }}</span>
-    <p>{{ question.description }}</p>
+    <h2 class="md-display-1">{{ ::$ctrl.test.name }}</h2>
+    <p class="md-subhead">{{ ::$ctrl.test.description }}</p>
+
+    <md-list class="flex">
+
+      <md-toolbar layout="row" class="md-hue-2">
+        <div class="md-toolbar-tools">
+          <span>Questions in this test:</span>
+        </div>
+      </md-toolbar>
+
+      <md-list-item class="md-2-line" 
+                    ng-repeat="question in $ctrl.questions track by $index">
+
+        <div class="md-list-item-text">
+
+          <h3>{{ question.name }}</h3>
+
+          <p>{{ question.description }}</p>  
+
+        </div>
+
+      </md-list-item>
+
+    </md-list>
+<!-- 
+    <h3 class="md-title"></h3>
+
     <ul>
-      <li ng-repeat="answer in question.answers">{{ answer.name }} <span ng-if="answer.correct">(Correct)</span></li>
-    </ul>
-  </li>
-</ul>
+      <li >
+        <h4></h4>
+        <span>Type: {{ question.type }}</span>
+        <p></p>
+        <ul>
+          <li ng-repeat="answer in question.answers">{{ answer.name }} <span ng-if="answer.correct">(Correct)</span></li>
+        </ul>
+      </li>
+    </ul> -->
 
-<form ng-submit="$ctrl.addQuestion()">
-  <label>
-    Question name
-    <input type="text" name="name" ng-model="$ctrl.question.name">
-  </label>
-  <label>
-    Question content
-    <textarea ng-model="$ctrl.question.description"></textarea>
-  </label>
-  <label>
-    Question type
-    <label>
-      <input type="radio" ng-model="$ctrl.question.type" value="open">
-        Open
-    </label>
-    <label>
-      <input type="radio" ng-model="$ctrl.question.type" value="code">
-        Code
-    </label>
-    <label>
-      <input type="radio" ng-model="$ctrl.question.type" value="choice">
-        Choice
-    </label>
-  </label>
+    <p class="md-subhead"
+       ng-if="!$ctrl.questions.length">
+      No questions added yet
+    </p>    
 
-  <div ng-if="$ctrl.question.type === 'choice'"
-       ng-init="$ctrl.question.answers = [{}]">
-    <label>
-      Possible Answers:
-      <div ng-repeat="answer in $ctrl.question.answers">
-        <input type="text" name="name" ng-model="answer.name">
-        <label>
-          Correct answer
-          <input type="checkbox" ng-model="answer.correct">
-        </label>  
+    <form ng-submit="$ctrl.addQuestion()" name="$ctrl.newQuestionForm" ng-submit="$ctrl.addQuestion()">
+
+      <h3 class="md-title">Add a new question</h3>
+
+      <div layout="column">
+      
+        <md-input-container>
+          <label>Question Name</label>
+          <input ng-model="$ctrl.question.name" required name="name">
+          <div ng-messages="$ctrl.newQuestionForm.name.$error">
+            <div ng-message="required">Your question needs to have a name.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Question Content</label>
+          <textarea ng-model="$ctrl.question.description" rows="10" md-select-on-focus required name="description"></textarea>
+          <div ng-messages="$ctrl.newQuestionForm.description.$error">
+            <div ng-message="required">Your question needs to have a name.</div>
+          </div>
+        </md-input-container>
+
+        <md-content layout="row">
+
+          <div flex>
+            
+            <label>Question type</label>
+
+            <md-radio-group ng-model="$ctrl.question.type">
+
+              <md-radio-button value="open">Open Question</md-radio-button>
+              <md-radio-button value="code">Coding Challenge</md-radio-button>
+              <md-radio-button value="choice">Multiple Choice</md-radio-button>
+
+            </md-radio-group>
+          </div>
+
+          <div flex>
+
+            <div ng-if="$ctrl.question.type === 'choice'"
+                 ng-init="$ctrl.question.answers = [{}]">
+              <fieldset class="standard">
+                
+                <legend>
+                  Possible Answers:
+                </legend>
+
+                <div ng-repeat="answer in $ctrl.question.answers">
+
+                  <div layout="column">
+
+                    <md-input-container>
+                      <label>Answer</label>
+                      <input ng-model="answer.name" required name="questionName{{ $index }}">
+                    </md-input-container>
+
+                    <md-checkbox ng-model="answer.correct" aria-label="Question {{ $index}} correct">
+                      Correct answer
+                    </md-checkbox>
+
+                  </div>
+
+                </div>
+
+              </fieldset>
+
+              <md-button class="md-primary" type="button" ng-click="$ctrl.question.answers.push({}); ">Add Another Possible Answer </button>
+
+            </div>
+            
+          </div>
+
+        </md-content>
+
       </div>
-    </label>
-    <button type="button" ng-click="$ctrl.question.answers.push({}); ">Add Possible Answer </button>
-  </div>
 
-  <button type="submit">Add a question</button>
-</form>
+      
+
+      <md-button class="md-raised md-primary" type="submit">Add!</button>
+
+    </form>
+
+  </md-content>
+
+</div>

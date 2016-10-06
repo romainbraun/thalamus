@@ -12,9 +12,13 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  User.find(function (err, users) {
-    if (err) return next(err);
-    res.json(users);
+  User
+    .find()
+    .populate('passed')
+    .exec(function (err, users) {
+      if (err) return next(err);
+
+      res.json(users);
   });
 });
 

@@ -68,13 +68,18 @@ function adminStates($stateProvider) {
           return Tests.get({id: $stateParams.test});
         }
       }
-    });
+    })
 
-    // .state('question', {
-    //   url: '/question/:question',
-    //   templateUrl: '/question.html',
-    //   controller: 'QuestionController'
-    // });
+    .state('answers', {
+      url: '/admin/user/:user/test/:test',
+      component: 'answers',
+      resolve: {
+        answers: function($stateParams, $resource) {
+          var Answers = $resource('/api/answers/:user/:test');
+          return Answers.query({user: $stateParams.user, test: $stateParams.test});
+        }
+      }
+    });
 }
 
 angular

@@ -6,5 +6,13 @@
     <a ng-href="mailto:{{ user.google.email }}">
          {{ user.google.name }}
     </a>
+
+    <ul>
+      <li ng-repeat="test in user.passed track by $index">
+        <a ui-sref="answers({user: user._id, test: test._id})">
+          {{ test.name }}
+        </a>
+      </li>
+    </ul>
   </li>
 </ul>

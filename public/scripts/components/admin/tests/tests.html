@@ -23,6 +23,56 @@
 
     </md-list>
 
+    <div style="visibility: hidden">
+
+      <div class="md-dialog-container" id="testDialog">
+
+        <md-dialog>
+
+          <form name="$ctrl.newTestForm" ng-submit="$ctrl.createTest()">
+
+            <md-dialog-content class="md-dialog-content new-test-dialog">
+
+              <h3 class="md-title">Create new test</h3>
+
+
+                <md-input-container>
+                  <label>Name</label>
+                  <input ng-model="$ctrl.test.name" required name="name">
+                  <div ng-messages="$ctrl.newTestForm.name.$error">
+                    <div ng-message="required">Your test needs to have a name.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>Description</label>
+                  <textarea ng-model="$ctrl.test.description" md-maxlength="150" rows="5" md-select-on-focus required name="description"></textarea>
+                  <div ng-messages="$ctrl.newTestForm.description.$error">
+                    <div ng-message="required">A description is required.</div>
+                    <div ng-message="md-maxlength">The description must be less than 150 characters long.</div>
+                  </div>
+                </md-input-container>
+
+              
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+
+              <md-button ng-click="$ctrl.cancel()">Cancel</md-button>
+
+              <md-button type="submit">I'm ready</md-button>
+
+            </md-dialog-actions>
+
+          </form>
+
+        </md-dialog>
+
+      </div>
+
+    </div>
+
     <!-- <form ng-submit="$ctrl.createTest()">
       <label>
         Test name
@@ -36,8 +86,8 @@
       <button type="submit">Create</button>
     </form> -->
 
-  <md-button class="md-fab md-primary md-fab-bottom-right" aria-label="Eat cake">
-    <md-icon md-svg-src="assets/images/ic_add_white_24px.svg"></md-icon>
-  </md-button>
-
 </div>
+
+<md-button class="md-fab md-primary md-fab-bottom-right" ng-click="$ctrl.openTestPrompt($event)">
+  <md-icon md-svg-src="assets/images/ic_add_white_24px.svg"></md-icon>
+</md-button>

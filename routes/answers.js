@@ -30,4 +30,18 @@ router.post('/', function(req, res, next) {
   
 });
 
+router.get('/:user/:test', function(req, res, next) {
+  var answer = req.body;
+
+  Answer
+    .find({test_id: req.params.test, user_id: req.params.user})
+    .populate('question_id')
+    .exec(function(err, answers) {
+      if (err) return next(err);
+
+      res.json(answers);
+  });
+  
+});
+
 module.exports = router;
