@@ -1,0 +1,22 @@
+<md-list class="flex">
+
+  <md-toolbar layout="row" class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <span>Answers</span>
+    </div>
+  </md-toolbar>
+
+  <md-list-item class="md-2-line" 
+                ng-repeat="answer in $ctrl.answers track by $index">
+
+    <div class="md-list-item-text">
+
+      <h3>{{ answer.question_id.name }}</h3>
+
+      <pre class="md-caption">{{ answer.content }}</pre>  
+
+    </div>
+
+  </md-list-item>
+
+</md-list>

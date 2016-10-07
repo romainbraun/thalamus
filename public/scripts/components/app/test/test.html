@@ -53,7 +53,8 @@
     <div ng-switch="$ctrl.question.type">
 
       <div ng-switch-when="code">
-        <textarea placeholder="code" ng-model="$ctrl.userContent"></textarea>
+        <div id="editor"></div>
+        <!-- <textarea placeholder="code" ng-model="$ctrl.userContent"></textarea> -->
       </div>
 
       <div ng-switch-when="choice">

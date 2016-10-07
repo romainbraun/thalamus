@@ -148,29 +148,6 @@ angular
   .module('app')
   .factory('UserFactory', UserFactory);
 
-var answersComponent = {
-
-  bindings: {
-    answers: '<'
-  },
-
-  templateUrl: 'assets/scripts/components/admin/answers/answers.html',
-
-  controller: function($resource, $timeout) {
-
-    this.$onInit = function() {
-      $timeout(function() {
-        console.log(this.answers);
-      }.bind(this));
-    };
-  }
-};
-
-angular
-  .module('admin')
-  .component('answers', answersComponent);
-
-
 var home = {
 
   bindings: {
@@ -189,61 +166,27 @@ angular
   .component('home', home);
 
 
-var users = {
+var answersComponent = {
 
-  bindings: {},
+  bindings: {
+    answers: '<'
+  },
 
-  templateUrl: 'assets/scripts/components/admin/users/users.html',
+  templateUrl: 'assets/scripts/components/admin/answers/answers.html',
 
-  controller: function($resource, $state) {
-    var users = $resource('/api/users');
-    this.users = users.query();
-  }
-};
+  controller: function($resource, $timeout) {
 
-angular
-  .module('admin')
-  .component('users', users);
-
-
-var tests = {
-
-  bindings: {},
-
-  templateUrl: 'assets/scripts/components/admin/tests/tests.html',
-
-  controller: function($resource, $state, $mdDialog) {
-    var Tests = $resource('/api/tests');
-    this.tests = Tests.query();
-
-    this.createTest = function() {
-      console.log(this.newTestForm.$valid);
-      if (this.newTestForm.$valid) {
-        var test = new Tests(this.test);
-        test.$save(function(response) {
-          $state.go('test', {test: response._id});
-        });
-      } 
-    };
-
-    this.openTestPrompt = function(event) {
-      $mdDialog.show({
-        contentElement: '#testDialog',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: true
-      });
-    };
-
-    this.cancel = function() {
-      $mdDialog.cancel();
+    this.$onInit = function() {
+      $timeout(function() {
+        // console.log(this);
+      }.bind(this));
     };
   }
 };
 
 angular
   .module('admin')
-  .component('tests', tests);
+  .component('answers', answersComponent);
 
 
 var testComponent = {
@@ -290,25 +233,82 @@ var tests = {
 
   bindings: {},
 
-  templateUrl: 'assets/scripts/components/app/tests/tests.html',
+  templateUrl: 'assets/scripts/components/admin/tests/tests.html',
+
+  controller: function($resource, $state, $mdDialog) {
+    var Tests = $resource('/api/tests');
+    this.tests = Tests.query();
+
+    this.createTest = function() {
+      console.log(this.newTestForm.$valid);
+      if (this.newTestForm.$valid) {
+        var test = new Tests(this.test);
+        test.$save(function(response) {
+          $state.go('test', {test: response._id});
+        });
+      } 
+    };
+
+    this.openTestPrompt = function(event) {
+      $mdDialog.show({
+        contentElement: '#testDialog',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true
+      });
+    };
+
+    this.cancel = function() {
+      $mdDialog.cancel();
+    };
+  }
+};
+
+angular
+  .module('admin')
+  .component('tests', tests);
+
+
+var users = {
+
+  bindings: {},
+
+  templateUrl: 'assets/scripts/components/admin/users/users.html',
 
   controller: function($resource, $state) {
-    var Tests = $resource('/api/tests');
+    var users = $resource('/api/users');
+    this.users = users.query();
+  }
+};
 
-    this.$onInit = function() {
-      this.tests = Tests.query();
+angular
+  .module('admin')
+  .component('users', users);
+
+
+var home = {
+
+  bindings: {},
+
+  templateUrl: 'assets/scripts/components/app/home/home.html',
+
+  controller: function($resource, $state) {
+    var User = $resource('/api/users');
+
+    this.createUser = function() {
+      var user = new User(this.user);
+      user.$save(function(response) {
+          $state.go('tests');
+      }, function(error) {
+        console.log(error);
+      });
     };
-
-    this.openTest = function(id) {
-      $state.go('test', {test: id});
-    };
-
   }
 };
 
 angular
   .module('app')
-  .component('tests', tests);
+  .component('home', home);
 
 
 var testComponent = {
@@ -319,7 +319,7 @@ var testComponent = {
 
   templateUrl: 'assets/scripts/components/app/test/test.html',
 
-  controller: function($resource, $state, $scope, $mdDialog, UserFactory) {
+  controller: function($resource, $state, $scope, $timeout, $mdDialog, UserFactory) {
     var Questions = $resource('/api/questions/:id'),
         Answers = $resource('/api/answers/');
 
@@ -365,6 +365,13 @@ var testComponent = {
         this.loading = false;
         this.choice = this.userContent = null;
         this.loading = false;
+        $timeout(function() {
+          if (this.question.type === 'code') {
+            this.editor = ace.edit("editor");
+            this.editor.setTheme("ace/theme/monokai");
+            this.editor.getSession().setMode("ace/mode/javascript");
+          }
+        }.bind(this));
       }.bind(this));
     }
 
@@ -374,8 +381,10 @@ var testComponent = {
           question_id: this.question._id,
           test_id: this.test._id,
           choice_id: this.choice,
-          content: this.userContent
+          content: this.userContent || this.choice || this.editor.getValue()
         });
+
+        console.log(answer);
 
         answer.$save(function(response) {
           callback.call(this);
@@ -392,27 +401,27 @@ angular
   .component('test', testComponent);
 
 
-var home = {
+var tests = {
 
   bindings: {},
 
-  templateUrl: 'assets/scripts/components/app/home/home.html',
+  templateUrl: 'assets/scripts/components/app/tests/tests.html',
 
   controller: function($resource, $state) {
-    var User = $resource('/api/users');
+    var Tests = $resource('/api/tests');
 
-    this.createUser = function() {
-      var user = new User(this.user);
-      user.$save(function(response) {
-          $state.go('tests');
-      }, function(error) {
-        console.log(error);
-      });
+    this.$onInit = function() {
+      this.tests = Tests.query();
     };
+
+    this.openTest = function(id) {
+      $state.go('test', {test: id});
+    };
+
   }
 };
 
 angular
   .module('app')
-  .component('home', home);
+  .component('tests', tests);
 

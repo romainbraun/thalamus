@@ -32,3 +32,8 @@
 .new-test-dialog {
   width: 450px;
 }
+
+#editor { 
+  width: 600px;
+  height: 400px;
+}

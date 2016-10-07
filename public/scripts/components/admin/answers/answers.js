@@ -10,7 +10,7 @@ var answersComponent = {
 
     this.$onInit = function() {
       $timeout(function() {
-        console.log(this.answers);
+        // console.log(this);
       }.bind(this));
     };
   }
