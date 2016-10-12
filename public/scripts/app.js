@@ -193,46 +193,6 @@ angular
   .component('answers', answersComponent);
 
 
-var testComponent = {
-
-  bindings: {
-    test: '<'
-  },
-
-  templateUrl: 'assets/scripts/components/admin/test/test.html',
-
-  controller: function($resource, $timeout) {
-    var Questions = $resource('/api/questions');
-
-    this.$onInit = function() {
-      $timeout(function() {
-        getQuestions.call(this);
-      }.bind(this));
-    };
-
-    this.addQuestion = function() {
-      if (this.newQuestionForm.$valid) {
-        this.question.test_id = this.test._id;
-        var question = new Questions(this.question);
-        question.$save();
-        getQuestions.call(this);
-        this.question = {};
-        this.newQuestionForm.$setPristine();
-        this.newQuestionForm.$setUntouched();
-      }
-    };
-
-    function getQuestions() {
-      this.questions = Questions.query({test_id: this.test._id});
-    }
-  }
-};
-
-angular
-  .module('admin')
-  .component('test', testComponent);
-
-
 var tests = {
 
   bindings: {},
@@ -273,6 +233,46 @@ angular
   .component('tests', tests);
 
 
+var testComponent = {
+
+  bindings: {
+    test: '<'
+  },
+
+  templateUrl: 'assets/scripts/components/admin/test/test.html',
+
+  controller: function($resource, $timeout) {
+    var Questions = $resource('/api/questions');
+
+    this.$onInit = function() {
+      $timeout(function() {
+        getQuestions.call(this);
+      }.bind(this));
+    };
+
+    this.addQuestion = function() {
+      if (this.newQuestionForm.$valid) {
+        this.question.test_id = this.test._id;
+        var question = new Questions(this.question);
+        question.$save();
+        getQuestions.call(this);
+        this.question = {};
+        this.newQuestionForm.$setPristine();
+        this.newQuestionForm.$setUntouched();
+      }
+    };
+
+    function getQuestions() {
+      this.questions = Questions.query({test_id: this.test._id});
+    }
+  }
+};
+
+angular
+  .module('admin')
+  .component('test', testComponent);
+
+
 var users = {
 
   bindings: {},
@@ -288,6 +288,31 @@ var users = {
 angular
   .module('admin')
   .component('users', users);
+
+
+var home = {
+
+  bindings: {},
+
+  templateUrl: 'assets/scripts/components/app/home/home.html',
+
+  controller: function($resource, $state) {
+    var User = $resource('/api/users');
+
+    this.createUser = function() {
+      var user = new User(this.user);
+      user.$save(function(response) {
+          $state.go('tests');
+      }, function(error) {
+        console.log(error);
+      });
+    };
+  }
+};
+
+angular
+  .module('app')
+  .component('home', home);
 
 
 var testComponent = {
@@ -357,7 +382,7 @@ var testComponent = {
             this.editor.setTheme("ace/theme/monokai");
             this.editor.getSession().setMode("ace/mode/javascript");
           }
-        }.bind(this), 300);
+        }.bind(this));
       }.bind(this));
     }
 
@@ -410,31 +435,6 @@ var tests = {
 angular
   .module('app')
   .component('tests', tests);
-
-
-var home = {
-
-  bindings: {},
-
-  templateUrl: 'assets/scripts/components/app/home/home.html',
-
-  controller: function($resource, $state) {
-    var User = $resource('/api/users');
-
-    this.createUser = function() {
-      var user = new User(this.user);
-      user.$save(function(response) {
-          $state.go('tests');
-      }, function(error) {
-        console.log(error);
-      });
-    };
-  }
-};
-
-angular
-  .module('app')
-  .component('home', home);
 
 
 var userComponent = {

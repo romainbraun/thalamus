@@ -65,7 +65,7 @@ var testComponent = {
             this.editor.setTheme("ace/theme/monokai");
             this.editor.getSession().setMode("ace/mode/javascript");
           }
-        }.bind(this), 300);
+        }.bind(this));
       }.bind(this));
     }
 

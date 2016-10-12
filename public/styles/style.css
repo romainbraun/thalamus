@@ -103,6 +103,7 @@ body {
 
 .centered.slide-right.ng-enter {
   transition: all 0.3s;
+  transition-delay: 0.3s;
   opacity:0;
   transform: translate(0, -50%);
 }
