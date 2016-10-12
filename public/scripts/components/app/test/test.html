@@ -1,6 +1,6 @@
 <div layout="column" layout-align="center center" ng-cloak flex layout-margin>
 
-  <div class="test__progress"
+  <div class="test__progress fade"
        ng-if="!$ctrl.done">
     <p class="test__progress-count">{{$ctrl.nextQuestion + 1}} / {{ $ctrl.questions.length }} </p>
     <div class="test__progress-bar-container">
@@ -93,10 +93,10 @@
 
   </div>
 
-  <div class="end centered"
+  <div class="end centered slide-right"
        ng-if="$ctrl.done">
 
-    <h3 class="md-display-2">Thank you for taking this test! You can close this page.</h3>
+    <p class="md-display-2">Thank you for taking this test! <br> You can close this page.</p>
     
   </div>
 
