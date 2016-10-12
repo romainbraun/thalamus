@@ -22,8 +22,8 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/:id', function(req, res, next) {
-  User.findOne({_id: req.params.id}, function (err, user) {
+router.get('/me', function(req, res, next) {
+  User.findOne({_id: req.user.id}, function (err, user) {
     if (err) return next(err);
     res.json(user);
   });

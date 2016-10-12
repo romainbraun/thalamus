@@ -13,9 +13,14 @@
 
       <h3>{{ answer.question_id.name }}</h3>
 
+      <pre class="md-caption">{{ answer.question_id.description }}</pre> 
+
       <pre class="md-caption">{{ answer.content }}</pre>  
 
     </div>
+
+    <md-icon md-svg-src="/assets/images/ic_done_black_24px.svg"
+             ng-if="answer.correct"></md-icon>
 
   </md-list-item>
 

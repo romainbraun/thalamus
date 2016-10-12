@@ -13,13 +13,19 @@
   </head>
   <body layout="column">
 
-    <md-toolbar layout-align="center center" layout-padding>
+    <div class="header">
 
-      <h1 class="md-display-3">Thalamus</h1>
+      <span class="logo">T</span>
 
-    </md-toolbar>
+      <h1 class="md-headline display--inline-block">Thalamus</h1>
 
-    <div ui-view flex layout="column"></div>
+      <user></user>
+
+    </div>
+
+      
+
+    <div ui-view flex layout="column" class="view"></div>
 
     <script type="text/javascript" src="/assets/scripts/vendor/ace-builds/src-min/ace.js"></script>
     <script type="text/javascript" src="/assets/scripts/vendor/angular/angular.min.js"></script>

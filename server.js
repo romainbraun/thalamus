@@ -24,15 +24,18 @@ passport.use(new GoogleStrategy({
     User.findOne({ 'google.id' : profile.id }, function(err, user) {
       if (err) return done(err);
 
+      console.log(profile);
+
       if (user) {
         return done(null, user);
       } else {
-        var newUser          = new User();
+        var newUser            = new User();
         
-        newUser.google.id    = profile.id;
-        newUser.google.token = token;
-        newUser.google.name  = profile.displayName;
-        newUser.google.email = profile.emails[0].value; // pull the first email
+        newUser.google.id      = profile.id;
+        newUser.google.token   = token;
+        newUser.google.name    = profile.displayName;
+        newUser.google.picture = profile.photos[0].value;
+        newUser.google.email   = profile.emails[0].value; // pull the first email
 
         // save the user
         newUser.save(function(err) {

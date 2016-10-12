@@ -25,7 +25,7 @@ function stateConfig($urlRouterProvider, $locationProvider) {
 function materialConfig($mdThemingProvider) {
   $mdThemingProvider
     .theme('default')
-    .primaryPalette('blue-grey');
+    .primaryPalette('blue');
 
 }
 

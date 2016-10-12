@@ -10,9 +10,15 @@ var testComponent = {
     var Questions = $resource('/api/questions/:id'),
         Answers = $resource('/api/answers/');
 
+    this.questions = [];
+    this.nextQuestion = -1;
+    this.progress = 0;
+
+    console.log(this.progress);
+
     this.$onInit = function() {
       this.questions = Questions.query({test_id: this.test._id, list: true});
-      this.nextQuestion = -1;
+      // this.nextQuestion = -1;
     };
 
     this.next = function() {
@@ -21,6 +27,7 @@ var testComponent = {
       $mdDialog.hide();
 
       sendAnswer.call(this, function() {
+        this.question = null;
         this.nextQuestion++;
 
         if (this.nextQuestion < this.questions.length) {
@@ -48,17 +55,17 @@ var testComponent = {
 
     function getQuestion() {
       this.loading = true;
-      this.question = Questions.get({id: this.questions[this.nextQuestion]}, function() {
+      this.questions[this.nextQuestion] = Questions.get({id: this.questions[this.nextQuestion]}, function() {
         this.loading = false;
         this.choice = this.userContent = null;
-        this.loading = false;
+        this.progress = 100 / this.questions.length * (this.nextQuestion + 1);
         $timeout(function() {
-          if (this.question.type === 'code') {
+          if (this.questions[this.nextQuestion].type === 'code') {
             this.editor = ace.edit("editor");
             this.editor.setTheme("ace/theme/monokai");
             this.editor.getSession().setMode("ace/mode/javascript");
           }
-        }.bind(this));
+        }.bind(this), 300);
       }.bind(this));
     }
 

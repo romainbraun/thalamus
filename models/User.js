@@ -5,7 +5,8 @@ var UserSchema = new mongoose.Schema({
     id: String,
     email: String,
     token: String,
-    name: String
+    name: String,
+    picture: String
   },
   passed: [{type : mongoose.Schema.ObjectId, ref : 'Test'}],
   updated_at: { type: Date, default: Date.now },

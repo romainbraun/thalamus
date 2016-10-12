@@ -1,8 +1,6 @@
-<div layout="column" layout-align="center center" ng-cloak flex layout-margin>
+<div layout="row" layout-align="center center" ng-cloak flex layout-margin layout-wrap>
 
-  <md-content class="md-whiteframe-z1" flex>
-
-    <md-list class="md-dense flex">
+    <!-- <md-list class="md-dense flex">
 
       <md-subheader>List of available tests</md-subheader>
 
@@ -20,8 +18,41 @@
         
       </md-list-item>
 
-    </md-list>
+    </md-list> -->
 
-  </md-content>
+    <md-card class="tests__card slide-left"
+             ng-repeat="test in $ctrl.tests track by $index">
+
+      <md-card-title>
+
+        <md-card-title-text>
+
+          <span class="md-headline">{{ ::test.name }}</span>
+
+          <span class="md-subhead">{{ ::test.description }}</span>
+
+        </md-card-title-text>
+
+        <md-card-title-media>
+
+          <div class="md-media-sm card-media">
+
+            <img ng-if="$index % 2 === 0" src="assets/images/python-original.svg">
+
+            <img ng-if="$index % 2 !== 0" src="assets/images/javascript-original.svg">
+
+          </div>
+
+        </md-card-title-media>
+
+      </md-card-title>
+
+      <md-card-actions layout="row" layout-align="end center">
+
+        <md-button ng-click="$ctrl.openTest(test._id)">Take the Test!</md-button>
+
+      </md-card-actions>
+
+    </md-card>
 
 </div>

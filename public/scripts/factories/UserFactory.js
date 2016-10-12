@@ -7,6 +7,10 @@ function UserFactory($resource) {
       hasPassed: {
         method: 'POST',
         url: '/api/users/passed'
+      },
+      getCurrentUser: {
+        method: 'GET',
+        url: '/api/users/me'
       }
     }
   );
